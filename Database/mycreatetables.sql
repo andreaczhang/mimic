@@ -97,7 +97,7 @@ COPY CAREGIVERS FROM '/Users/andrea/Desktop/DataDemo/CAREGIVERS.csv' DELIMITER '
 
 
 -- ------------------------ 4. CHART EVENTS
-/*
+
 DROP TABLE IF EXISTS CHARTEVENTS CASCADE;
 CREATE TABLE CHARTEVENTS
 (
@@ -118,10 +118,11 @@ CREATE TABLE CHARTEVENTS
 	STOPPED VARCHAR(50),
 	CONSTRAINT chartevents_rowid_pk PRIMARY KEY (ROW_ID)
 ) ;
-COPY ADMISSIONS FROM '/Users/andrea/Desktop/DataDemo/ADMISSIONS.csv' DELIMITER ',' CSV HEADER NULL '';
+
+COPY CHARTEVENTS FROM '/Users/andrea/Desktop/DataDemo/CHARTEVENTS.csv' DELIMITER ',' CSV HEADER NULL '';
 
 
- the partition is quite messy, learn later how to do it */
+ -- the partition is quite messy, learn later how to do it 
 
 
 
