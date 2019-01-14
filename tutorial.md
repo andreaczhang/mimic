@@ -20,19 +20,19 @@ links to <u>patients</u> table.
 
 `value` is a string, and `valuenum` is a numeric. When querying aggregated value must use `MAX(valuenum)`, for example. 
 
-
-
 it is important to notice that there can be multiple ICU stays: we need to decide which one we want to keep. 
 
+`itemid` identifies a single measurement type (relate to <u>d_items</u>)
+
+`charttime` is when the observation is made
+
+`cgid` is the care giver id 
+
+It is possible to create materialised view of the output. 
 
 
 
-
-It is possible to cerate materialised view of the output. 
-
-
-
-### diagnose_icd
+### 3. diagnose_icd
 
 Subject (patient) corresponds to his diagnosis, each of them have multiple diagnosis codes (icd9_code). Then icd9_code relate to <u>d_icd_diagnoses table</u>. 
 
@@ -42,9 +42,7 @@ principal and other diagnosis codes: 6 digits, decimal point between 3 and 4
 
 V codes: decimal point between 2 and 3
 
-
-
-### icustays
+### 4. icustays
 
 http://data.patientcarelink.org/staffing2017/units.cfm?ID=12&Name=Beth%20Israel%20Deaconess%20Medical%20Center
 
@@ -56,25 +54,29 @@ icu types include surgical (SICU), medical (MICU), coronary (CCU), trauma (TSICU
 
 
 
-## Example: patient 10006
+### 5. input (mv, cv) / output events 
+
+probably it's either mv or cv, not both? link to d_items 
 
 
 
-### Diagnose_icd
-
-99591, ..., 2874, ... ,E8791, ... ,V090, ... etc. total 21 diagnosis. They all relate to harm_id = 142345. Using query 
-
-```sql
-SELECT subject_id, diag.icd9_code, short_title, long_title
-FROM diagnoses_icd AS diag
-INNER JOIN d_icd_diagnoses AS code
-ON diag.icd9_code = code.icd9_code
-WHERE subject_id = 10006;
-```
-
-can print out the diagnosis descriptions. 
 
 
+### 6. lab events
+
+relate to d_labitems
+
+`spec_itemid, spec_type_desc` are the specimen being tested, such as blood culture, urine etc
+
+`isolate_num` is the isolated colony for organism 
+
+`ab` antibiotic 
+
+`interpretation` S is sensitive, R is resistant, I is intermediate, P is pending 
+
+
+
+### microbiology events 
 
 
 
