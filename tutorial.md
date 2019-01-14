@@ -188,3 +188,78 @@ WHERE substring(icd9_code,1,4) IN ('9670');  --,'9671','9672'
 
 
 
+## Arterial line study
+
+https://github.com/MIT-LCP/mimic-code/blob/master/notebooks/aline/aline.ipynb
+
+**Conclusion**: in hemodynamically stable patients who are mechanically ventilated, IAC is not associated with a difference in 28-day mortality. 
+
+Presence of IAC: place an invasive arterial catheter at any point in time after initiation of mechanical ventilation
+
+Cohort: 
+
+- adult patients, 
+- require mechanical ventilation
+- within first 24 h 
+- Medical / surgical ICU admission
+- first ICU admission, for those who have multiple
+- last for at least 24 h
+- **no** sepsis diagnosis according to Angus criteria 
+- **exclude** those require vasopressor while in ICU
+- **exclude** those IAC placed before endotracheal intubation and intiation of mechanical ventilation (hence excluding all cardiac surgery ICU)
+
+Primary outcome: 28-days mortality
+
+Secondary outcome: length of stay, duration of ventilation, blood gas measurements.
+
+propensity score model 
+
+### Covariates: (select via genetic algorithm, final 29 out of 53)
+
+**demographics**: Admission age, gender, race, daytime admission (7am to 7pm), day of admission and
+service unit (medical or surgical ICU), and admission Sequential Organ Failure Assessment (SOFA) score
+
+**comorbidities**: 
+
+Congestive Heart Failure 398.91 428.0 428.1 428.20 428.21 428.22 428.23
+428.30 428.31 428.32 428.33 428.40 428.41 428.42, 428, 428.2, 428.3, 428.4, 428.43, 428.9; 
+
+Atrial fibrillation 427.3; 
+
+Chronic renal disease 585.; 
+
+Chronic liver disease 571; 
+
+Chronic Obstructive Pulmonary Disease 490-496; 
+
+Coronary Artery Disease 414.; 
+
+Stroke 440-434; 
+
+Malignancy 140-239; 
+
+non-COPD lung disease (including acute respiratory distress syndrome) 518, and Pneumonia 482.
+
+**vital signs**: Data include weight, mean arterial pressure (MAP), temperature, heart
+rate, oxygen saturation (SpO2) and central venous pressure (CVP). 
+
+**preintervention lab results**: White blood cell (WBC) count, hemoglobin, platelet count, sodium, potassium,
+bicarbonate, chloride, blood urea nitrogen (BUN), creatinine, glucose, calcium, magnesium, phosphate,
+aspartate Aminotransferase (AST), alanine Aminotransferase (ALT), lactic acid dehydrogenase (LDH), total
+bilirubin, alkaline phosphatase, albumin, troponin T, creatinine kinase, brain natriuretic peptide (BNP),lactate, pH, central venous oxygen saturation (ScVO2), arterial partial pressure of oxygen (PaO2) and
+arterial partial pressure of carbon dioxide (PCO2).
+
+**Sedative medication use**: including midazolam, fentanyl, and propofol.
+
+
+
+### Queries
+
+`angus.sql, HeightWeightQuery.sql, aline_vaso_flag.sql`
+
+`aline_cohort.sql`
+
+then `bmi.sql, vitals.sql, sedatives.sql, icd.sql, labs.sql, sofa.sql`
+
+
+
