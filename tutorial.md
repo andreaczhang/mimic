@@ -82,6 +82,54 @@ relate to d_labitems
 
 
 
+## aggregate materialised views 
+
+
+
+```sql
+CREATE MATERIALIZED VIEW angus_sepsis as
+
+-- source 1
+WITH infection_group AS
+(
+    SELECT subject_id, hadm_id
+    FROM diagnoses_icd
+),
+-- source 2
+organ_diag_group as
+(
+    SELECT subject_id, hadm_id
+    FROM diagnoses_icd
+),
+-- source 3
+organ_proc_group as
+(
+    SELECT subject_id, hadm_id
+    FROM procedures_icd
+),
+
+
+-- Aggregate above views together
+aggregate as
+(
+    SELECT subject_id, hadm_id
+    FROM admissions
+)
+
+-- aggregation ends 
+
+-- Output component flags (explicit sepsis, organ dysfunction) and final flag (angus)
+SELECT subject_id, hadm_id, infection,
+   explicit_sepsis, organ_dysfunction, mech_vent
+FROM aggregate;
+```
+
+
+
+
+
+
+
 
 
 
