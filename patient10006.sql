@@ -58,12 +58,33 @@ WHERE itemid IN (87)
 
 
 
+
+
+
 SELECT subject_id, events.itemid, charttime, label, value, valuenum, valueuom
 FROM chartevents AS events
 INNER JOIN d_items AS itemscode
 ON events.itemid = itemscode.itemid
 WHERE subject_id = 10006
 ORDER BY events.itemid, charttime;
+
+
+-- now I want to find out with this new table, find only the items  (and their label names) 
+
+WITH patient10006 AS 
+(SELECT subject_id, events.itemid, charttime, label, value, valuenum, valueuom
+FROM chartevents AS events
+INNER JOIN d_items AS itemscode
+ON events.itemid = itemscode.itemid
+WHERE subject_id = 10006
+ORDER BY events.itemid, charttime
+
+)
+SELECT DISTINCT itemid, label
+FROM patient10006;
+
+
+
 
 
 

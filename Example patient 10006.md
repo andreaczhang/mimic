@@ -30,7 +30,7 @@ ORDER BY events.itemid, charttime;
 
 ```
 
-for instance, ` itemid = 677` is the body temperature. 
+for instance, ` itemid = 677` is the body temperature, `211` is heart rate, `618` is respiratory rate 
 
 ### input events (d_items)
 
@@ -52,7 +52,7 @@ ORDER BY input.itemid;
 
 ```sql
 
-SELECT subject_id, input.itemid, label, value, valueuom, charttime
+SELECT subject_id, output.itemid, label, value, valueuom, charttime
 FROM outputevents AS output
 INNER JOIN d_items AS itemscode
 ON output.itemid = itemscode.itemid
@@ -82,4 +82,38 @@ WHERE subject_id = 10006
 ORDER BY spec_itemid, charttime;
 
 ```
+
+
+
+## Plot one table
+
+start with body temperature from table chartevent. 
+
+```R
+temp <- q5.res[which(q5.res$itemid == 677), ]
+hr <- q5.res[which(q5.res$itemid == 211), ]
+respr <- q5.res[which(q5.res$itemid == 618), ]
+### this should be easy to do with purrr.
+
+. 
+tab.new <- (rbind(temp, hr, respr))[, c(3, 4, 6)] # in the same table, with 3 columns
+ggplot(tab.new, aes(x = charttime, y = valuenum, 
+                    group = label, colour = label)) + 
+  geom_line()
+
+```
+
+
+
+
+
+![Screenshot 2019-01-15 at 11.23.26](/Users/andrea/Desktop/Screenshot 2019-01-15 at 11.23.26.png)
+
+But with this plot we can't see the sampling frequency. instead use `geom_point()`, it becomes obvious that temperature is sampled less. 
+
+![Screenshot 2019-01-15 at 11.41.46](/Users/andrea/Desktop/Screenshot 2019-01-15 at 11.41.46.png)
+
+## Aggregate everything and plot together 
+
+it is useful to aggregate, but is it also useful to plot everything together? many fields are not numeric values. 
 
