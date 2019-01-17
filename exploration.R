@@ -65,3 +65,20 @@ head(que.res)
 str(que.res)  # value is a character, and valuenum is a numeric
 # class(que.res) # it's a dataframe
 
+
+
+
+
+# ----------- length of stay 
+que8 <- "
+SELECT los 
+FROM icustays;
+"
+que.res <- dbGetQuery(con, 
+                      que8)
+
+hist(que.res$los, breaks = 25)
+
+
+
+
