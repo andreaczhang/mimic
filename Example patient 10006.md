@@ -1,5 +1,23 @@
 # Example: patient 10006
 
+## No time stamps 
+
+### admissions, patients 
+
+```sql
+SELECT *
+FROM admissions
+WHERE subject_id = 10006;
+
+
+SELECT *
+FROM patients
+WHERE subject_id = 10006;
+
+```
+
+
+
 
 
 ### Diagnose_icd (d_icd_diagnoses )
@@ -17,6 +35,25 @@ WHERE subject_id = 10006;
 can print out the diagnosis descriptions. 
 
 
+
+### Procedures_icd (d_icd_procedures)
+
+```sql
+SELECT subject_id, icd9_code, short_title, long_title
+FROM procedures_icd
+INNER JOIN d_icd_procedures
+USING (icd9_code)
+WHERE subject_id = 10006;
+
+```
+
+
+
+
+
+
+
+## With time stamps
 
 ### chart event (d_items)
 
@@ -81,6 +118,17 @@ FROM microbiologyevents
 WHERE subject_id = 10006
 ORDER BY spec_itemid, charttime;
 
+```
+
+
+
+### prescriptions
+
+only date, and can last after discharge. 
+
+```sql
+SELECT *
+FROM prescriptions WHERE subject_id = 10006;
 ```
 
 
