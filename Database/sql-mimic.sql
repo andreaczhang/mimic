@@ -108,3 +108,9 @@ ON icu.hadm_id = serv.hadm_id
 AND serv.rank = 1;
 
 
+
+SELECT subject_id, icd9_code, short_title, long_title
+FROM procedures_icd
+INNER JOIN d_icd_procedures
+USING (icd9_code)
+WHERE subject_id = 10114;

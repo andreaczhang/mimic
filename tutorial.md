@@ -8,6 +8,12 @@ This should help me getting started, at least more tuned for this specific datas
 
 
 
+
+
+
+
+
+
 ### 1. admissions 
 
 `hadm_id` is the unique admission, corresponding to a patient using `subject_id`. Possible to have multiple `subject_id` with different `hadm_id` for several visits. 
@@ -76,7 +82,13 @@ relate to d_labitems
 
 
 
-### microbiology events 
+### 7. microbiology events 
+
+
+
+### 8. procedures 
+
+no time stamps 
 
 
 
