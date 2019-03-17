@@ -82,3 +82,40 @@ hist(que.res$los, breaks = 25)
 
 
 
+# ========== update March 17 
+# try to read from a .sql 
+
+library(readr)
+df <- dbGetQuery(con, statement = read_file('simple_query.sql'))
+
+
+
+q <- "
+SELECT *
+FROM patients
+WHERE subject_id IN (10006);
+"
+
+dbGetQuery(con, statement = q)
+
+#  now I want to replace 10006 with 10011, 10013 respectively 
+# empty string: " "
+newval <- c(10006, 10011, 10045)
+
+string1 <- "SELECT * FROM patients WHERE subject_id IN ("
+string2 <-  ")"
+
+patientDF <- list()
+for (i in 1:length(newval)){
+  qnew <- paste0(
+    string1, newval[i], string2
+  )
+  
+  patientDF[[i]] <- dbGetQuery(con, statement = qnew)
+  
+}
+
+
+
+
+
