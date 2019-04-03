@@ -1,5 +1,86 @@
 # MIMIC tutorial
 
+## Whole MIMIC data (not demo)
+
+> Updated April 3 2019. It is time, to start working on the real deal. 
+
+#### create DB `mimicbig`
+
+```bash
+andrea$ psql postgres 
+postgres=# \du        -- this gives users. Note that chizhang can only create. 
+
+------------------
+
+andrea$ psql postgres -U chizhang   # -- change user
+postgres=# \list                    # gives current db
+
+# semicolon is important! 
+postgres=> CREATE DATABASE mimicbig;
+postgres=> GRANT ALL PRIVILEGES ON DATABASE mimicbig TO chizhang;
+```
+
+By now in Postico the new DB `mimicbig` should appear. 
+
+#### Create table (postico)
+
+execute `postgres_create_tables.sql` in postico. 
+
+#### Import data (bash)
+
+```bash
+# copy from csv
+\copy ADMISSIONS FROM 'ADMISSIONS.csv' DELIMITER ',' CSV HEADER NULL ''
+
+# copy from gzip
+\copy ADMISSIONS FROM PROGRAM 'gzip -dc ADMISSIONS.csv.gz' DELIMITER ',' CSV HEADER NULL ''
+```
+
+### selected tables (apr 3)
+
+- [x] admissions
+- [x] chartevetnts
+- [x] d items
+- [x] d labitems
+- [x] icustays
+- [x] labevents
+- [x] Notevents
+- [x] patients
+
+
+
+This is taking too long. I want to know how much records there are 
+
+### examine correctness
+
+chartevent took very long. Total number of rows: 330,712,483
+
+chartevents1: 18,386,320 (10.2s)
+
+chartevents2: 19647241 (11.8s)
+
+chartevents3: 20928152 (12.1s)
+
+Chartevents4: 19129634 (11.4s)
+
+Chartevents5: 21679452 (12.1s)
+
+Chartevents6: 17612000 (9.4s)
+
+chartevents7: 20703171 (11.5s)
+
+Chartevents8: 20000213 (11.3s)
+
+Chartevents9: 19591030 (9.9s)
+
+...
+
+chartevents17
+
+
+
+
+
 ## SQL for this dataset 
 
 https://github.com/MIT-LCP/mimic-code/blob/master/tutorials/sql-intro.md
