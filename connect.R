@@ -29,11 +29,10 @@ dbExistsTable(con, "admissions")  # this works
 # TRUE
 
 
+
 # ================ 2. load data 
 que <- 'SELECT subject_id FROM admissions'  # this could also work
 
-dfsports <- dbGetQuery(con, 
-                       que)
 
 class(dfsports) # it's a dataframe
 
@@ -44,6 +43,26 @@ class(dfsports) # it's a dataframe
 # ================ 3. close connection
 dbDisconnect(con)
 dbUnloadDriver(drv)
+
+
+
+
+# ====================== # 
+# for big mimic data base 
+
+
+conbig <- dbConnect(drv, 
+                 dbname = "mimicbig",
+                 host = "localhost", 
+                 port = 5432,
+                 user = "chizhang", 
+                 password = pw)
+rm(pw) # removes the password
+
+dbExistsTable(conbig, "admissions")  # this works
+
+
+
 
 
 
