@@ -114,3 +114,67 @@ FROM procedures_icd
 INNER JOIN d_icd_procedures
 USING (icd9_code)
 WHERE subject_id = 10114;
+
+
+
+-- I want to figure out what is the best practice for producing TS for each patient 
+-- it looks interesting to produce each column as variable already
+-- although I need to think carefully about the time stamp. 
+
+
+
+
+
+
+SELECT
+  pvt.subject_id, pvt.hadm_id, pvt.icustay_id
+
+  , min(CASE WHEN label = 'ANION GAP' THEN valuenum ELSE null END) as ANIONGAP_min
+  , max(CASE WHEN label = 'ANION GAP' THEN valuenum ELSE null END) as ANIONGAP_max
+
+
+
+------------------ from the below table 
+FROM
+( 
+  SELECT ie.subject_id, ie.hadm_id, ie.icustay_id
+  -- here we assign labels to ITEMIDs
+  -- this also fuses together multiple ITEMIDs containing the same data
+  , CASE WHEN itemid = 50868 THEN 'ANION GAP'
+           ELSE null
+    END AS label  -- this chunk assigns many labels 
+  , -- add in some sanity checks on the values
+
+
+
+    CASE WHEN itemid = 50868 and valuenum > 10000 THEN null -- mEq/L 'ANION GAP'
+    ELSE le.valuenum
+    END AS valuenum  -- this chunk assigns values to the above labels
+
+  FROM icustays AS ie
+
+
+
+
+  LEFT JOIN labevents le
+    ON le.subject_id = ie.subject_id AND le.hadm_id = ie.hadm_id
+    AND le.ITEMID in(50868 )
+    AND valuenum IS NOT null AND valuenum > 0 -- lab values cannot be 0 and cannot be negative
+) 
+pvt
+
+
+GROUP BY pvt.subject_id, pvt.hadm_id, pvt.icustay_id
+ORDER BY pvt.subject_id, pvt.hadm_id, pvt.icustay_id;
+
+
+
+
+
+
+
+/*
+   WHEN itemid = 50809 THEN 'GLUCOSE'
+    WHEN itemid = 50931 THEN 'GLUCOSE'
+     
+*/     

@@ -29,11 +29,18 @@ execute `postgres_create_tables.sql` in postico.
 #### Import data (bash)
 
 ```bash
+# working directory is where data is
+# connect with DBNAME USERNAME
+MIMICdata andrea$ psql mimicbig chizhang 
+
 # copy from csv
 \copy ADMISSIONS FROM 'ADMISSIONS.csv' DELIMITER ',' CSV HEADER NULL ''
 
 # copy from gzip
 \copy ADMISSIONS FROM PROGRAM 'gzip -dc ADMISSIONS.csv.gz' DELIMITER ',' CSV HEADER NULL ''
+
+# to quit 
+\q
 ```
 
 ### selected tables (apr 3)
@@ -76,6 +83,12 @@ Chartevents9: 19591030 (9.9s)
 ...
 
 chartevents17
+
+
+
+### <span style="color:DarkSeaGreen">Updated Apr 24</span>
+
+The above chartevent tables have been dropped, instead **50 materialized views indexed by subject_id** have been added to the database. 
 
 
 
