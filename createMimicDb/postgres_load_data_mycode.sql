@@ -55,5 +55,5 @@
 -- \copy CAREGIVERS from 'CAREGIVERS.csv' delimiter ',' csv header NULL ''
 -- \copy CPTEVENTS from 'CPTEVENTS.csv' delimiter ',' csv header NULL ''
 -- \copy D_CPT from 'D_CPT.csv' delimiter ',' csv header NULL ''
--- \copy SERVICES from 'SERVICES.csv' delimiter ',' csv header NULL ''
+\copy SERVICES from PROGRAM 'gzip -dc SERVICES.csv.gz' delimiter ',' csv header NULL ''
 -- \copy TRANSFERS from 'TRANSFERS.csv' delimiter ',' csv header NULL ''
